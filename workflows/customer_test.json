@@ -1,0 +1,212 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "getAllPeople"
+      },
+      "type": "n8n-nodes-base.n8nTrainingCustomerDatastore",
+      "typeVersion": 1,
+      "position": [
+        112,
+        -16
+      ],
+      "id": "e494820a-33fb-4a34-b524-6c7e89658222",
+      "name": "Customer Datastore (n8n training)"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -112,
+        -16
+      ],
+      "id": "e24af053-a511-4113-a72b-b7bfe1fadcdb",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1d693366-1d89-40d6-9d01-abc419b200c3",
+              "name": "Full Name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "7763a462-dbd1-44cc-a151-970bcfffcbb4",
+              "name": "Email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "28177c19-13bd-4ee4-924e-3cee2df4ce15",
+              "name": "Country",
+              "value": "={{ $json.country }}",
+              "type": "string"
+            },
+            {
+              "id": "6bc9c004-a3d8-4a5d-8021-560e89838304",
+              "name": "ID",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        336,
+        -16
+      ],
+      "id": "7f3a3c76-99e4-4ec2-8d82-5ddcc1f621ea",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "29c6002e-098f-4f06-b853-e38ba1737d44",
+              "leftValue": "={{ $json.Country }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        560,
+        -16
+      ],
+      "id": "d42e7727-aa8c-4eb9-938b-20ca39973592",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e97a10a1-cc55-4ce6-aa00-c1df3d2aee2c",
+              "name": "Full Name",
+              "value": "={{ $json['Full Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "35557efc-8453-4d18-a45d-d67a02ea7006",
+              "name": "Country",
+              "value": "={{ $json.Country }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        784,
+        -112
+      ],
+      "id": "0df103e5-a5e7-4d22-ade8-0e27e1bdf3ab",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7bbfa629-49fc-41d3-8465-a2e0f9fb16a0",
+              "name": "ID",
+              "value": "={{ $json.ID }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        784,
+        80
+      ],
+      "id": "bb8301d3-3e03-42dc-a62c-277cdbf4d995",
+      "name": "Edit Fields2"
+    }
+  ],
+  "connections": {
+    "Customer Datastore (n8n training)": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Customer Datastore (n8n training)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "f8c51f021bd2f86ae306c3bf1cff5ab57224aff4dffbeef9d4664f282a16df86"
+  }
+}
